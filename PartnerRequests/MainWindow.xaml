@@ -1,0 +1,137 @@
+﻿<Window x:Class="PartnerRequests.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Учет заявок партнеров" Height="700" Width="1000" Background="White" FontFamily="Bahnschrift Light SemiCondensed" WindowStartupLocation="CenterScreen">
+
+    <Window.Resources>
+        <Style TargetType="Border" x:Key="RequestCardStyle">
+            <Setter Property="Background" Value="White"/>
+            <Setter Property="BorderBrush" Value="#DDDDDD"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="CornerRadius" Value="8"/>
+            <Setter Property="Margin" Value="5"/>
+            <Setter Property="Padding" Value="15"/>
+            <Setter Property="Cursor" Value="Hand"/>
+            <Style.Triggers>
+                <Trigger Property="IsMouseOver" Value="True">
+                    <Setter Property="BorderBrush" Value="#0C4882"/>
+                    <Setter Property="BorderThickness" Value="2"/>
+                    <Setter Property="Background" Value="#F8FAFF"/>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+
+        <Style TargetType="Border" x:Key="SelectedRequestCardStyle">
+            <Setter Property="BorderBrush" Value="#0C4882"/>
+            <Setter Property="BorderThickness" Value="3"/>
+            <Setter Property="Background" Value="#E8F4FD"/>
+        </Style>
+    </Window.Resources>
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <Border Grid.Row="0" Background="#0C4882" Padding="15">
+            <StackPanel Orientation="Horizontal">
+                <Border Width="50" Height="50" Background="#ABCFCE" Margin="0,0,15,0">
+                    <Image VerticalAlignment="Center" HorizontalAlignment="Center"
+                         Source="/Новые технологии.png"/>
+                </Border>
+                <TextBlock Text="Учет заявок партнеров"
+                         FontFamily="Comic Sans MS"
+                         FontSize="20"
+                         FontWeight="Bold"
+                         Foreground="White"
+                         VerticalAlignment="Center"/>
+            </StackPanel>
+        </Border>
+
+        <Border Grid.Row="1" Background="#F0F0F0" Padding="10">
+            <StackPanel Orientation="Horizontal">
+                <Button Content="Добавить заявку" Click="AddRequestButton_Click"
+                       Width="120" Height="30" Background="#0C4882"
+                       Foreground="White" Margin="0,0,10,0"/>
+                <Button Content="Просмотр продукции" Click="ViewProductsButton_Click"
+                       Width="140" Height="30" Background="#0C4882"
+                       Foreground="White" Margin="0,0,10,0"/>
+                <Button Content="Автоматический расчет материалов выбранной заявки" Click="CalculateMaterialsButton_Click"
+                       Width="291" Height="30" Background="#0C4882"
+                       Foreground="White" Margin="0,0,10,0"/>
+                <Button Content="Справка" Click="MaterialsInfoButton_Click"
+                       Width="80" Height="30" Background="#0C4882"
+                       Foreground="White" Margin="0,0,10,0"/>
+                <Button Content="Ручной расчет" Click="MaterialInputButton_Click"
+                        Width="120" Height="30" Background="#0C4882"
+                        Foreground="White" Margin="0,0,10,0"/>
+                <Button Content="Обновить" Click="RefreshButton_Click"
+                       Width="80" Height="30" Background="LightGray"/>
+            </StackPanel>
+        </Border>
+
+        <ScrollViewer Grid.Row="2" VerticalScrollBarVisibility="Auto" Padding="10">
+            <ItemsControl x:Name="RequestsPanel">
+                <ItemsControl.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <StackPanel Orientation="Vertical"/>
+                    </ItemsPanelTemplate>
+                </ItemsControl.ItemsPanel>
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate>
+                        <Border x:Name="CardBorder"
+                               Style="{StaticResource RequestCardStyle}"
+                               MouseDown="RequestCard_MouseDown"
+                               Tag="{Binding Id}">
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="Auto"/>
+                                </Grid.ColumnDefinitions>
+                                <StackPanel Grid.Column="0" Orientation="Vertical">
+                                    <StackPanel Orientation="Horizontal" Margin="0,0,0,5">
+                                        <TextBlock Text="{Binding PartnerType}"
+                                                  FontWeight="SemiBold"
+                                                  Foreground="#0C4882"
+                                                  VerticalAlignment="Center"/>
+                                        <TextBlock Text=" | "
+                                                  Margin="5,0,5,0"
+                                                  VerticalAlignment="Center"/>
+                                        <TextBlock Text="{Binding PartnerName}"
+                                                  FontWeight="SemiBold"
+                                                  VerticalAlignment="Center"/>
+                                    </StackPanel>
+                                    <TextBlock Text="{Binding PartnerAddress}"
+                                              FontSize="11"
+                                              Foreground="#666666"
+                                              TextWrapping="Wrap"
+                                              Margin="0,0,0,5"/>
+                                    <TextBlock Text="{Binding PartnerPhone}"
+                                              FontSize="11"
+                                              Foreground="#666666"
+                                              Margin="0,0,0,5"/>
+                                    <Border Background="#F0F0F0" CornerRadius="4" Padding="5,2" HorizontalAlignment="Left">
+                                        <TextBlock Text="{Binding PartnerRating, StringFormat={}Рейтинг: {0}}"
+                                                  FontSize="11"
+                                                  FontWeight="SemiBold"
+                                                  Foreground="#0C4882"/>
+                                    </Border>
+                                </StackPanel>
+                                <TextBlock Grid.Column="1"
+                                          Text="{Binding TotalCost, StringFormat={}{0:N2} р}"
+                                          FontSize="16"
+                                          FontWeight="Bold"
+                                          Foreground="#0C4882"
+                                          VerticalAlignment="Center"
+                                          HorizontalAlignment="Right"
+                                          Margin="10,0,0,0"/>
+                            </Grid>
+                        </Border>
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+            </ItemsControl>
+        </ScrollViewer>
+    </Grid>
+</Window>

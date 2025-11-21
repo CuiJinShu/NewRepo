@@ -1,0 +1,141 @@
+﻿<Window x:Class="PartnerRequests.MaterialInputWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Расчет потребности в материалах" Height="550" Width="500" WindowStartupLocation="CenterOwner" Background="White" FontFamily="Bahnschrift Light SemiCondensed">
+
+    <Window.Resources>
+        <Style TargetType="TextBox">
+            <Setter Property="Padding" Value="8"/>
+            <Setter Property="FontSize" Value="12"/>
+            <Setter Property="Background" Value="White"/>
+            <Setter Property="BorderBrush" Value="#CCCCCC"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="Margin" Value="0,5,0,10"/>
+        </Style>
+
+        <Style TargetType="TextBlock">
+            <Setter Property="Margin" Value="0,5,0,5"/>
+            <Setter Property="FontWeight" Value="SemiBold"/>
+        </Style>
+
+        <Style TargetType="Button">
+            <Setter Property="Height" Value="35"/>
+            <Setter Property="FontFamily" Value="Comic Sans MS"/>
+            <Setter Property="FontSize" Value="12"/>
+            <Setter Property="FontWeight" Value="SemiBold"/>
+            <Setter Property="Cursor" Value="Hand"/>
+            <Setter Property="Margin" Value="5,0,5,0"/>
+        </Style>
+    </Window.Resources>
+
+    <Grid Margin="15">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <Border Grid.Row="0" Background="#BBDCFA" Padding="15" CornerRadius="8" Margin="0,0,0,15">
+            <StackPanel Orientation="Horizontal">
+                <Border Width="40" Height="40" Background="#0C4882" Margin="0,0,15,0" CornerRadius="4">
+                    <TextBlock Text="📊" FontSize="20" Foreground="White"
+                             VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                </Border>
+                <TextBlock Text="Расчет потребности в материалах"
+                         FontFamily="Comic Sans MS"
+                         FontSize="16"
+                         FontWeight="Bold"
+                         Foreground="Black"
+                         VerticalAlignment="Center"/>
+            </StackPanel>
+        </Border>
+
+        <Border Grid.Row="1" Background="#F8F8F8" Padding="15" CornerRadius="8" BorderBrush="#DDDDDD" BorderThickness="1">
+            <StackPanel>
+                <TextBlock Text="Параметры продукции:" FontSize="14" Foreground="#0C4882" Margin="0,0,0,10"/>
+
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="10"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
+
+                    <TextBlock Grid.Row="0" Grid.Column="0" Text="Тип продукции:"/>
+                    <ComboBox x:Name="ProductTypeComboBox" Grid.Row="1" Grid.Column="0"
+                             DisplayMemberPath="NameProductType" SelectedValuePath="idProductType"
+                             SelectedValue="{Binding ProductTypeId}"/>
+
+                    <TextBlock Grid.Row="0" Grid.Column="2" Text="Тип материала:"/>
+                    <ComboBox x:Name="MaterialTypeComboBox" Grid.Row="1" Grid.Column="2"
+                             DisplayMemberPath="NameMaterialsType" SelectedValuePath="idMaterialsType"
+                             SelectedValue="{Binding MaterialTypeId}"/>
+
+                    <TextBlock Grid.Row="2" Grid.Column="0" Text="Требуемое количество продукции:"/>
+                    <TextBox x:Name="RequiredQuantityTextBox" Grid.Row="3" Grid.Column="0"
+                            Text="{Binding RequiredQuantity}"/>
+
+                    <TextBlock Grid.Row="2" Grid.Column="2" Text="Количество на складе:"/>
+                    <TextBox x:Name="StockQuantityTextBox" Grid.Row="3" Grid.Column="2"
+                            Text="{Binding StockQuantity}"/>
+
+                    <TextBlock Grid.Row="4" Grid.Column="0" Text="Параметр продукции 1:"/>
+                    <TextBox x:Name="Parameter1TextBox" Grid.Row="5" Grid.Column="0"
+                            Text="{Binding ProductParameter1}"/>
+
+                    <TextBlock Grid.Row="4" Grid.Column="2" Text="Параметр продукции 2:"/>
+                    <TextBox x:Name="Parameter2TextBox" Grid.Row="5" Grid.Column="2"
+                            Text="{Binding ProductParameter2}"/>
+                </Grid>
+            </StackPanel>
+        </Border>
+
+        <Border Grid.Row="2" Background="#E8F4FD" Padding="15" CornerRadius="8" BorderBrush="#0C4882" BorderThickness="1" Margin="0,10,0,10">
+            <StackPanel>
+                <TextBlock Text="Результат расчета:" FontSize="14" FontWeight="Bold" Foreground="#0C4882" Margin="0,0,0,10"/>
+
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
+
+                    <TextBlock Grid.Row="0" Grid.Column="0" Text="Необходимое количество материала:" FontWeight="SemiBold"/>
+                    <TextBlock x:Name="ResultTextBlock" Grid.Row="0" Grid.Column="1" 
+                              Text="{Binding ManualCalculationResult, StringFormat={}{0} ед.}" 
+                              FontSize="16" FontWeight="Bold" Foreground="#0C4882" Margin="10,0,0,0"/>
+
+                    <TextBlock Grid.Row="1" Grid.Column="0" Text="Статус расчета:" FontWeight="SemiBold"/>
+                    <TextBlock Grid.Row="1" Grid.Column="1" Text="{Binding ManualCalculationStatus}" 
+                              Foreground="#666666" Margin="10,0,0,0"/>
+                </Grid>
+            </StackPanel>
+        </Border>
+
+        <Border Grid.Row="3" Background="#F0F0F0" Padding="10" CornerRadius="8">
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                <Button Content="Рассчитать" Click="CalculateButton_Click" Width="120"
+                       Background="#0C4882" Foreground="White"/>
+                <Button Content="Очистить" Click="ClearButton_Click" Width="100"
+                       Background="LightGray" Foreground="Black" Margin="10,0,0,0"/>
+                <Button Content="Закрыть" Click="CloseButton_Click" Width="100"
+                       Background="#0C4882" Foreground="White" Margin="10,0,0,0"/>
+            </StackPanel>
+        </Border>
+    </Grid>
+</Window>
